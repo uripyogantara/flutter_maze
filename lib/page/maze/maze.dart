@@ -25,6 +25,7 @@ class _MazeState extends State<Maze> {
   void initState() {
     super.initState();
     mazeBloc = MazeBloc();
+    mazeBloc.dispatch(InitEvent());
     // TODO: Jalankan Game maze
 
     WidgetsBinding.instance.addPostFrameCallback((_) => onPostFrame());
@@ -59,20 +60,62 @@ class _MazeState extends State<Maze> {
         child: BlocBuilder(
           bloc: mazeBloc,
           builder: (BuildContext context, MazeState state) {
-            //TODO: Perbaiki data yg dilempar
+
+            // if (state is MazeGameArena) {
+            //   return MazeView(
+            //     canvasSize: canvasSize,
+            //     currentIndexPosition: state.currentIndexPosition,
+            //     finishIndexPosition: 4,
+            //     numberOfStep: 0,
+            //     isFinished: false,
+            //     isRunning: false,
+            //     isInitial: false,
+            //     onBackward: _onBackward,
+            //     onForward: _onForward,
+            //     onDownward: _onDownward,
+            //     onUpward: _onUpward,
+            //   );  
+            // }
 
             return MazeView(
-              canvasSize: canvasSize,
-              currentIndexPosition: -1,
-              finishIndexPosition: -1,
-              numberOfStep: -1,
-              isFinished: false,
-              isRunning: false,
-              isInitial: false,
-            );
+                canvasSize: canvasSize,
+                currentIndexPosition: 20,
+                finishIndexPosition: 4,
+                numberOfStep: 0,
+                isFinished: false,
+                isRunning: false,
+                isInitial: false,
+                onBackward: _onBackward,
+                onForward: _onForward,
+                onDownward: _onDownward,
+                onUpward: _onUpward,
+              );  
+            
+            
+            //TODO: Perbaiki data yg dilempar
+
+            
           },
         ),
       ),
     );
+  }
+
+  _onBackward(){
+    print("backward");
+    mazeBloc.dispatch(BackwardEvent());
+  }
+
+  _onForward(){
+    print("forward");
+    mazeBloc.dispatch(ForwardEvent());
+  }
+  _onDownward(){
+    print("downward");
+    mazeBloc.dispatch(DownwardEvent());
+  }
+  _onUpward(){
+    print("upward");
+    mazeBloc.dispatch(UpwardEvent());
   }
 }

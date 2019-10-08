@@ -13,11 +13,20 @@ class MazeView extends StatelessWidget {
   final bool isRunning;
   final bool isFinished;
 
+  Function onBackward;
+  Function onForward;
+  Function onDownward;
+  Function onUpward;
+
   MazeView({
     @required this.finishIndexPosition,
     @required this.currentIndexPosition,
     @required this.canvasSize,
     @required this.numberOfStep,
+    @required this.onBackward,
+    @required this.onDownward,
+    @required this.onForward,
+    @required this.onUpward,
     this.isInitial = false,
     this.isFinished = false,
     this.isRunning = false,
@@ -35,6 +44,16 @@ class MazeView extends StatelessWidget {
     Lengkapi semua fungsi dan data yg ada
 
     */
+    // return MazeGameLoadingView();
+    return MazeGameArenaView(
+      canvasSize: canvasSize, 
+      currentPosition: currentIndexPosition, 
+      finishPosition: finishIndexPosition, 
+      onBackward: onBackward, 
+      onDownward: onDownward, 
+      onForward: onForward, 
+      onUpward: onUpward,
+    );
   }
 }
 
@@ -233,10 +252,41 @@ class MazeBlock extends CustomPainter {
     |     
     |_____
 
+
     
     Jika anda merasa soal ini tidak berguna bagi anda, DM untuk minta jawaban
 
     */
+    blockedDirection.forEach((direction){
+      if (direction==Direction.Left){
+        canvas.drawLine(Offset.zero, Offset(0,areaSize), Paint());
+      }else if (direction==Direction.Right){
+      canvas.drawLine(Offset(areaSize,0), Offset(areaSize,areaSize), Paint());
+      }else if (direction==Direction.Top){
+        canvas.drawLine(Offset(0,0), Offset(areaSize,0), Paint());
+      }else if (direction==Direction.Bottom){
+        canvas.drawLine(Offset(0,areaSize), Offset(areaSize,areaSize), Paint());
+      }
+    });
+
+    if(isCurrentPosition){
+
+      Paint paint=Paint();
+      paint.color=Colors.red;
+      canvas.drawCircle(Offset(areaSize/2,areaSize/2), areaSize/5, paint);
+    }
+
+    if (isFinishPlace) {
+      Paint paint=Paint();
+      paint.color=Colors.yellow;
+      canvas.drawRect(Rect.fromPoints(Offset.zero, Offset(areaSize,areaSize)), paint);
+    }
+
+    // if
+        
+
+    // 
+    // canvas.drawRect(Rect.fromPoints(Offset.zero, Offset(50,50)), Paint());
   }
 
   @override
